@@ -1,0 +1,6 @@
+<p>Product Description: <%=  @post.description %></p>
+
+<p>Product Image: </p>
+<% @post.images.each do |photo|%>
+<%= image_tag photo %>
+<% end %>
