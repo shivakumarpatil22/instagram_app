@@ -1,0 +1,24 @@
+<% if user_signed_in? %>
+
+ <%= link_to 'Posts', posts_path, class: "btn btn-primary" %>
+ <%= link_to 'My Posts', my_post_path, class: "btn btn-primary" %>
+ <%= link_to 'Users', friends_path, class: "btn btn-primary" %>
+ <%= link_to 'Friend Requests', friend_request_path, class: "btn btn-primary" %>
+ <%= link_to 'My friends', my_friends_path, class: "btn btn-primary" %>
+
+  <a href="<%= destroy_user_session_path%>" class="btn btn-primary float-right", data-method="delete">
+    Sign Out 
+    <i class="fa fa-user"></i>
+  </a>
+
+
+<% else %>
+  <a href="<%= new_user_session_path%>">
+    Sign In
+    <i class="fa fa-sign-in"></i>
+  </a>
+<% end %>
+
+<p>
+<%= notice %>
+</p>

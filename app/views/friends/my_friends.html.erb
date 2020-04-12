@@ -1,0 +1,23 @@
+<h2>Friend Request</h2>
+<div class="container">           
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Friend Email</th>
+        <th>Friend Request</th>
+      </tr>
+    </thead>
+    <tbody>
+     <% @friends.each do |friend| %>
+      <tr>
+        <td><%= friend.email %></td>
+
+        <td><%= link_to 'Cancel friend invite', cancel_invite_path(user_id: friend.id, :authenticity_token => form_authenticity_token), method: :post, class: "btn btn-primary" %></td>
+        
+        </td>
+      </tr>
+
+      <% end %>
+    </tbody>
+  </table>
+</div>

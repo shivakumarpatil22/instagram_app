@@ -2,14 +2,18 @@
 <html>
   <head>
     <title>InstagramApp</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+    <%= csrf_meta_tag %>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+
+  <!-- app/views/layouts/application.html.erb - it will be common throughout application -->
+
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -18,7 +22,32 @@
 
   </head>
 
+  <div class="container">  
+
   <body>
+    <%= render 'layouts/header' %>
+       <!--Navigation Bar-->
+    <nav class="navbar navbar-light bg-light d-flex">
+      <div class="container">
+        <div class="logo">
+          <a class="navbar-brand" href="#">
+            Instagram
+          </a>
+        </div>
+<!--         <div class="m-auto">
+          <form class="form-inline search-form">
+            <input class="form-control mr-sm-2" type="search" placeholder="@search" aria-label="Search">
+          </form>
+        </div> -->
+  <!--       <div class="user-section">
+          <a><i class="fa fa-compass"></i></a>
+          <a><i class="fa fa-heart"></i></a>
+          <a><i class="fa fa-user"></i></a>
+        </div>
+      </div> -->
+    </nav>
+
     <%= yield %>
   </body>
+</div>
 </html>

@@ -1,0 +1,23 @@
+<h2>Users</h2>
+<div class="container">           
+  <table class="table">
+    <thead>
+      <tr>
+        <th>User Email</th>
+
+      </tr>
+    </thead>
+    <tbody>
+     <% @users.each do |user| %>
+      <tr>
+        <td><%= user.email %></td>
+
+        <td><%= link_to 'Send friend invite', send_invite_path(friend_id: user.id, :authenticity_token => form_authenticity_token), method: :post, class: "btn btn-primary" %></td>
+        
+        </td>
+      </tr>
+
+      <% end %>
+    </tbody>
+  </table>
+</div>

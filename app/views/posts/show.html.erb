@@ -1,6 +1,7 @@
-<p>Product Description: <%=  @post.description %></p>
+<br><h2> Post Details </h2></br>
+<p>Post Description: <%=  @post.description %></p><br>
 
-<p>Product Image: </p>
+<p>Post Image: </p>
 <% @post.images.each do |photo|%>
-<%= image_tag photo %>
+<%= image_tag photo, :size => '260x180' %>
 <% end %>
