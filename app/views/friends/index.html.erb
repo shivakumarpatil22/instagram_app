@@ -12,9 +12,13 @@
       <tr>
         <td><%= user.email %></td>
 
-        <td><%= link_to 'Send friend invite', send_invite_path(friend_id: user.id, :authenticity_token => form_authenticity_token), method: :post, class: "btn btn-primary" %></td>
-        
+        <% if Friend.cancel_friend_request?(current_user.id, user.id) %>
+        <td><%= link_to 'Cancel friend invite', cancel_invite_path(user_id: user.id, :authenticity_token => form_authenticity_token), method: :post, class: "btn btn-primary"%>
+          </td>
+          <% else %>
         </td>
+        <td><%= link_to 'Send friend invite', send_invite_path(friend_id: user.id, :authenticity_token => form_authenticity_token), method: :post, class: "btn btn-primary" %></td>
+        <% end %>
       </tr>
 
       <% end %>

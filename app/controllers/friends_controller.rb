@@ -12,7 +12,8 @@ class FriendsController < ApplicationController
       @friend = Friend.new(params_permit_friend)
       @friend.user_id = current_user.id
     end 
-    if @friend.present?
+    if @friend&.id&.present?
+      @friend.pending!
       flash[:notice] = 'Friend request already sent'
     elsif @friend.save
       flash[:notice] = 'Friend request sent sucessfully'
@@ -23,7 +24,7 @@ class FriendsController < ApplicationController
   end
 
   def friend_request
-    user_ids = Friend.where("(friend_id = ? or user_id = ?) and status = ?", current_user.id, current_user.id,'pending').pluck('user_id')
+    user_ids = Friend.where("friend_id = ?", current_user.id).pending.pluck('user_id')
     if user_ids.present?
       @friends = User.where(id: user_ids)
     else
@@ -32,16 +33,18 @@ class FriendsController < ApplicationController
   end
 
   def my_friends
-    user_ids = Friend.where(friend_id: current_user.id, status: 'accepted').pluck('user_id')
+    user_ids = Friend.where("friend_id = :user_id or user_id = :user_id", user_id: current_user.id).accepted.pluck('friend_id,user_id')
     if user_ids.present?
-      @friends = User.where(id: user_ids)
+       current_user_id = current_user.id
+       user_ids = user_ids&.flatten&.uniq.reject{|user_id| current_user_id == user_id.to_i}
+       @friends = User.where(id: user_ids)
     else
       @friends = []
     end
   end
 
   def accept_invite
-    @friend = Friend.where(friend_id: current_user.id, user_id: params[:user_id]).first
+    @friend = Friend.friend_request(current_user.id,params[:user_id]).first
     if @friend.accepted! 
       flash[:notice] = 'friend request accepted'
       redirect_to my_friends_path and return
@@ -52,7 +55,7 @@ class FriendsController < ApplicationController
   end
 
   def cancel_invite
-    @friend = Friend.where(friend_id: current_user.id, user_id: params[:user_id]).first
+    @friend = Friend.friend_request(current_user.id,params[:user_id])&.first
     if @friend.rejected! 
       flash[:notice] = 'friend request cancelled'
       redirect_to my_friends_path and return
